@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Input,
   InputGroup,
@@ -30,26 +31,39 @@ const modules = {
   ],
 };
 
-const BasicUsage = () => {
+const BasicUsage = ({ data, type }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [value, setValue] = useState();
-  const [ttl, setTtl] = useState();
-  const [tgl, setTl] = useState();
+  const [value, setValue] = useState("");
+  const [ttl, setTtl] = useState("");
+  const [tgl, setTl] = useState("");
   const { setText, setTgl, setTitle } = store((state) => state);
   const handleClick = () => {
-    setTitle(ttl);
+    setTitle(ttl === "" ? data?.title : ttl);
     setTgl(tgl);
     setText(value);
+    setTtl("");
+    setTl("");
     onClose();
   };
-
+  const handleOpen = () => {
+    onOpen();
+  };
   return (
     <>
-      <Button onClick={onOpen} colorScheme="blue">
-        Add
+      <Button
+        onClick={handleOpen}
+        colorScheme={type !== "edit" && "blue"}
+        fontWeight={500}
+        color={type === "edit" ? "black" : "white"}
+        border={type === "edit" ? "none" : "1px outset white"}
+        boxShadow={
+          type === "edit" ? "none" : "0px 1px 1px 0px rgba(0,0,0,0.75)"
+        }
+      >
+        {type === "edit" ? "Edit" : "Add"}
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size="4xl">
         <ModalOverlay />
         <ModalContent>
           <ModalBody>
@@ -59,6 +73,7 @@ const BasicUsage = () => {
                 type="text"
                 variant="flushed"
                 placeholder="Set Title"
+                defaultValue={data ? data?.title : ttl}
                 onChange={(e) => setTtl(e.target.value)}
               />
             </InputGroup>
@@ -67,20 +82,33 @@ const BasicUsage = () => {
                 pr="4.5rem"
                 type="date"
                 variant="flushed"
+                defaultValue={data ? data?.tgl : tgl}
                 onChange={(e) => setTl(e.target.value)}
               />
             </InputGroup>
-            <ReactQuill
-              modules={modules}
-              theme="snow"
-              value={value}
-              onChange={setValue}
-            />
+            {type === "edit" ? (
+              <ReactQuill
+                modules={modules}
+                theme="snow"
+                defaultValue={data ? data?.text : value}
+                onChange={setValue}
+              />
+            ) : (
+              <ReactQuill
+                modules={modules}
+                theme="snow"
+                value={value}
+                onChange={setValue}
+              />
+            )}
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={handleClick}>
-              OKE
+              Submit
+            </Button>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Cancel
             </Button>
           </ModalFooter>
         </ModalContent>
