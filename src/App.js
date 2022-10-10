@@ -20,7 +20,6 @@ import parse from "html-react-parser";
 import { store } from "./store";
 import { DATA } from "./mockdata";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-
 const App = () => {
   const [index, setIndex] = useState();
   const [tipe, setTipe] = useState();
@@ -49,22 +48,30 @@ const App = () => {
 
   return (
     <ChakraProvider>
-      <Box margin={"20px 0px 0px 0px"}>
+      <Box margin={"20px 0px 0px 0px"} minWidth={"100vw"}>
         <Grid
           h="100vh"
           templateRows="repeat(8, 1fr)"
-          templateColumns="repeat(6, 1fr)"
+          templateColumns="repeat(9, 1fr)"
         >
           <GridItem
             rowSpan={8}
-            colSpan={1}
+            colSpan={2}
             overflow={"auto"}
             backgroundColor="white"
+            position={"relative"}
           >
-            <Box rowSpan={1} border="none" backgroundColor="white">
+            <Box
+              rowSpan={1}
+              border="none"
+              backgroundColor="#eeeeee"
+              padding={3}
+              top="0"
+              position={"sticky"}
+            >
               <Select
                 placeholder="Filter"
-                fontSize={15}
+                fontSize={[14, 15]}
                 textTransform="uppercase"
                 fontWeight={"bold"}
                 borderRadius={"none"}
@@ -102,33 +109,45 @@ const App = () => {
                   <Menu>
                     <MenuButton
                       backgroundColor={"transparent"}
-                      _hover="none"
-                      _active={"none"}
+                      _hover={{
+                        backgroundColor: "transparent",
+                      }}
+                      _active={{
+                        backgroundColor: "transparent",
+                      }}
                       as={Button}
                     >
                       <ChevronDownIcon />
                     </MenuButton>
                     <MenuList>
-                      <MenuItem>
+                      <Box>
                         <BasicUsage data={selectItem} type="edit" />
-                      </MenuItem>
-                      <MenuItem marginLeft="16px" fontWeight={500}>
+                      </Box>
+                      <Box paddingLeft={"4"} fontWeight={500}>
                         Delete
-                      </MenuItem>
+                      </Box>
                     </MenuList>
                   </Menu>
                 </Box>
               </Box>
             ))}
           </GridItem>
-          <GridItem colSpan={5} rowSpan={8} backgroundColor="#e3e8eb">
-            <Grid templateRows={"repeat(8, 1fr)"} h="100%" gap={3}>
+          <GridItem colSpan={[8, 7, 7]} rowSpan={10}>
+            <Grid
+              templateRows={"repeat(8, 1fr)"}
+              h="100%"
+              gap={3}
+              minWidth="-webkit-min-content"
+              backgroundColor="#e3e8eb"
+            >
               <GridItem
+                h="100%"
+                w="90%"
+                margin={"auto"}
                 rowSpan={1}
                 display={"flex"}
                 justifyContent="end"
                 alignItems={"center"}
-                paddingRight="36px"
                 boxShadow={"0px 0.3px 5px 0px rgba(163,150,150,0.75)"}
               >
                 <Box display={"flex"} alignItems="center">
@@ -144,7 +163,7 @@ const App = () => {
                     marginRight={5}
                     backgroundColor="white"
                     fontWeight={500}
-                    color={"blue"}
+                    color={["blue"]}
                     border="1px outset whitesmoke"
                     boxShadow={"0px 1px 1px 0px rgba(0,0,0,0.75)"}
                     disabled={text === ""}
@@ -163,8 +182,8 @@ const App = () => {
                   templateRows={"repeat(auto-fill, 1fr)"}
                   gap={1}
                   h="100%"
-                  overflow={"scroll"}
                   w="90%"
+                  overflow={"scroll"}
                   bg="white"
                   borderRadius="5px"
                   backgroundColor="whitesmoke"
@@ -174,8 +193,8 @@ const App = () => {
                     rowSpan={1}
                     display={"flex"}
                     justifyContent="center"
-                    fontSize={23}
-                    fontWeight="600"
+                    fontSize={["16", 23]}
+                    fontWeight={["500", "600"]}
                     color={"#140909"}
                     textTransform="uppercase"
                     marginTop={"20px"}
@@ -199,7 +218,7 @@ const App = () => {
                   </GridItem>
                   <GridItem
                     rowSpan={6}
-                    fontSize="17px"
+                    fontSize={"17px"}
                     margin={5}
                     color={"black"}
                     fontFamily="sans-serif"
@@ -212,11 +231,6 @@ const App = () => {
                   </GridItem>
                 </Grid>
               </GridItem>
-              <GridItem
-                rowSpan={1}
-                display={"flex"}
-                justifyContent="end"
-              ></GridItem>
             </Grid>
           </GridItem>
         </Grid>
